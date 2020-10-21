@@ -24,7 +24,7 @@ void DiscussionList::deleteDiscussion(DiscussionTree::Node* root) {
 // prints all Responses and pathes of a node (3.5)
 bool DiscussionList::printResponsesAndPathes(const string& content) const {
 	bool found = false;
-	for (list<DiscussionTree>::const_iterator it = discussions.cbegin(); it != discussions.cend(); ++it) { // foreach dt in discussions list
+	for (list<DiscussionTree>::const_reverse_iterator it = discussions.rbegin(); it != discussions.rend(); ++it) { // foreach dt in discussions list
 		if (it->printResponseTree(content)) { // if the subtree was printed
 			it->printPathToResponse(content); // print the paths
 			found = true;
@@ -39,6 +39,8 @@ void DiscussionList::printResponseTree(const string& discussion, const string& c
 	for (list<DiscussionTree>::const_iterator it = discussions.cbegin(); it != discussions.cend(); ++it) { // foreach dt in discussions list
 		if (it->getRoot()->content == discussion) { // if the dt was found
 			it->printResponseTree(content); // print the subtree of content
+			if (it->_findFather(it->root, content))
+				cout << "=>" << it->_findFather(it->root, content)->content << endl;
 			break;
 		}
 	}
@@ -89,7 +91,7 @@ void DiscussionList::printResponse(const string& discussion, const string& conte
 // operator << to print all discussion trees list
 ostream& operator<<(ostream& os, const DiscussionList& dl) {
 	size_t counter = 1;
-	for (list<DiscussionTree>::const_iterator it = dl.discussions.cbegin(); it != dl.discussions.cend(); ++it) { // foreach dt in discussions list
+	for (list<DiscussionTree>::const_reverse_iterator it = dl.discussions.rbegin(); it != dl.discussions.rend(); ++it) { // foreach dt in discussions list
 		os << "Tree #" << counter++ << '\n';
 		os << *it; // prints the dt
 	}
