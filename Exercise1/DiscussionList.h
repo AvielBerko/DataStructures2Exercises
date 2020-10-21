@@ -21,6 +21,7 @@ public:
 	void printResponse(const string& discussion, const string& content) const;					// prints the path and subtree of a given response (3.9)
 
 	friend ostream& operator<<(ostream& os, const DiscussionList& dl);							// operator << to print all discussion trees list
+
 private:
 	list<DiscussionTree> discussions;
 };
