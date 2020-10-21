@@ -2,19 +2,21 @@
 
 #define INDENTATION "   "
 
+// copy ctor
 DiscussionTree::DiscussionTree(const DiscussionTree& copy) : root(nullptr) {
-	setRoot(copy.root->content);
-	root->responses = copy.root->responses;
+	setRoot(copy.root->content); // sets the root
+	root->responses = copy.root->responses; // copys the responses
 }
 
-DiscussionTree::~DiscussionTree() {
-	delete root;
+//dtor
+DiscussionTree::~DiscussionTree() { 
+	delete root; // deletes root's pointer
 }
 
 void DiscussionTree::setRoot(const string& content) {
-	delete root;
+	delete root; // deletes root's pointer
 
-	root = new Node(content);
+	root = new Node(content); // sets a new root
 }
 
 DiscussionTree::Node* DiscussionTree::getRoot() const {
