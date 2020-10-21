@@ -2,6 +2,11 @@
 
 #define INDENTATION "   "
 
+DiscussionTree::DiscussionTree(const DiscussionTree& copy) : root(nullptr) {
+	setRoot(copy.root->content);
+	root->responses = copy.root->responses;
+}
+
 DiscussionTree::~DiscussionTree() {
 	delete root;
 }
@@ -12,7 +17,11 @@ void DiscussionTree::setRoot(const string& content) {
 	root = new Node(content);
 }
 
-DiscussionTree::Node* DiscussionTree::find(const string& content) const {
+DiscussionTree::Node* DiscussionTree::getRoot() const {
+	return root;
+}
+
+DiscussionTree::Node* DiscussionTree::_find(const string& content) const {
 	if (root->content == content) return root;
 
 	auto father = _findFather(root, content);
@@ -25,42 +34,74 @@ DiscussionTree::Node* DiscussionTree::find(const string& content) const {
 	}
 }
 
-void DiscussionTree::insert(const string& father, const string& content) {
-	auto fatherNode = find(father);
+bool DiscussionTree::addResponse(const string& father, const string& content) {
+	auto fatherNode = _find(father);
 	if (fatherNode) {
 		fatherNode->responses.push_back(Node(content));
+		return true;
 	}
+
+	return false;
 }
 
-void DiscussionTree::deleteResponse(const string& content) {
-	if (root->content == content) delete root;
-	else {
-		auto father = _findFather(root, content);
-		if (father) {
-			auto begin = father->responses.begin();
-			auto end = father->responses.end();
-			std::remove_if(begin, end, [&content](const Node& node) { return node.content == content; });
+bool DiscussionTree::deleteResponse(const string& content) {
+	if (root->content == content) {
+		delete root;
+		return true;
+	}
+
+	auto father = _findFather(root, content);
+	if (father) {
+		auto it = father->responses.begin();
+		auto end = father->responses.end();
+		for (; it != end; ++it) {
+			if (it->content == content) {
+				father->responses.erase(it);
+				return true;
+			}
 		}
 	}
+
+	return false;
 }
 
-void DiscussionTree::printToResponse(const string& content) const {
-	auto lst = _findPath(root, content);
-	size_t indentations = 0;
-	for (auto node : lst) {
-		for (size_t i = 0; i < indentations; i++) {
-			cout << INDENTATION;
+void DiscussionTree::printPathToResponse(const string& content) const {
+	auto path = _findPath(root, content);
+	if (!path.empty()) {
+		for (auto it = ++path.rbegin(); it != path.rend(); ++it) {
+			cout << "=>" << (*it)->content;
 		}
 
-		cout << node->content << endl;
-		indentations++;
+		cout << endl;
 	}
 }
 
-void DiscussionTree::printFromResponse(const string& content) const {
-	auto node = find(content);
+bool DiscussionTree::printFromResponse(const string& content) const {
+	auto node = _find(content);
 	if (node) {
 		_printNode(*node);
+	}
+	
+	return node;
+}
+
+void DiscussionTree::printToFromResponse(const string& content) const {
+	auto path = _findPath(root, content);
+	if (!path.empty()) {
+		size_t indentations = 0;
+		auto end = --path.end();
+
+		for (auto it = path.begin(); it != end; ++it) {
+			for (size_t i = 0; i < indentations; i++) {
+				cout << INDENTATION;
+			}
+
+			cout << (*it)->content << endl;
+			indentations++;
+		}
+
+		auto node = *path.rbegin();
+		_printNode(*node, cout, indentations);
 	}
 }
 
