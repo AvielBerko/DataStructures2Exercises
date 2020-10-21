@@ -3,15 +3,15 @@
 #define INDENTATION "   "
 
 // copy ctor
-DiscussionTree::DiscussionTree(const DiscussionTree& copy) : root(nullptr) {
+DiscussionTree::DiscussionTree(const DiscussionTree& copy) : root(NULL) {
 	setRoot(copy.root->content); // sets the root
 	root->responses = copy.root->responses; // copys the responses
 }
 
-// move ctor
+/*// move ctor
 DiscussionTree::DiscussionTree(DiscussionTree&& move) : root(move.root) {
-	move.root = nullptr;
-}
+	move.root = NULL;
+}*/
 
 // dtor
 DiscussionTree::~DiscussionTree() { 
@@ -32,7 +32,7 @@ DiscussionTree::Node* DiscussionTree::getRoot() const {
 
 // adds a response to an existing response (2.5)
 bool DiscussionTree::addResponse(const string& father, const string& content) {
-	auto fatherNode = _find(father); // finds the father's node
+	Node* fatherNode = _find(father); // finds the father's node
 	if (fatherNode) {
 		fatherNode->responses.push_back(Node(content)); // pushes the content to father's list of responses
 		return true;
@@ -48,10 +48,10 @@ bool DiscussionTree::deleteResponse(const string& content) {
 		return true;
 	}
 
-	auto father = _findFather(root, content); // finds node's father node
+	Node* father = _findFather(root, content); // finds node's father node
 	if (father) {
-		auto it = father->responses.begin();
-		auto end = father->responses.end();
+		list<Node>::iterator it = father->responses.begin();
+		list<Node>::iterator end = father->responses.end();
 		for (; it != end; ++it) {
 			if (it->content == content) { 
 				// finds the node and deletes it
@@ -66,9 +66,9 @@ bool DiscussionTree::deleteResponse(const string& content) {
 
 // prints the path from root to response (2.8)
 void DiscussionTree::printPathToResponse(const string& content) const {
-	auto path = _findPath(root, content); // finds the path to content's node
+	list<Node*> path = _findPath(root, content); // finds the path to content's node
 	if (!path.empty()) {
-		for (auto it = ++path.rbegin(); it != path.rend(); ++it) {
+		for (list<Node*>::reverse_iterator it = ++path.rbegin(); it != path.rend(); ++it) {
 			cout << "=>" << (*it)->content; // prints the path (using iterators)
 		}
 
@@ -78,7 +78,7 @@ void DiscussionTree::printPathToResponse(const string& content) const {
 
 // prints the response's subtree (2.9)
 bool DiscussionTree::printResponseTree(const string& content) const {
-	auto node = _find(content); // finds content's node
+	Node* node = _find(content); // finds content's node
 	if (node) {
 		_printNode(*node); // prints the node and it's subtree
 	}
@@ -88,12 +88,12 @@ bool DiscussionTree::printResponseTree(const string& content) const {
 
 // prints from root to response and forward
 void DiscussionTree::printToFromResponse(const string& content) const {
-	auto path = _findPath(root, content); // finds the path to content's node
+	list<Node*> path = _findPath(root, content); // finds the path to content's node
 	if (!path.empty()) {
 		size_t indentations = 0; // number of indentations for each response
-		auto end = --path.end(); // exclucing the node itself
+		list<Node*>::iterator end = --path.end(); // exclucing the node itself
 
-		for (auto it = path.begin(); it != end; ++it) {
+		for (list<Node*>::iterator it = path.begin(); it != end; ++it) {
 			for (size_t i = 0; i < indentations; i++) {
 				cout << INDENTATION; // prints all indentations
 			}
@@ -102,7 +102,7 @@ void DiscussionTree::printToFromResponse(const string& content) const {
 			indentations++;
 		}
 
-		auto node = *path.rbegin(); // node = content's node
+		Node* node = *path.rbegin(); // node = content's node
 		_printNode(*node, cout, indentations); // prints the node and it's subtree
 	}
 }
@@ -120,9 +120,9 @@ ostream& operator<<(ostream& os, const DiscussionTree& dt) {
 DiscussionTree::Node* DiscussionTree::_find(const string& content) const {
 	if (root->content == content) return root; // checks the root node
 
-	auto father = _findFather(root, content); // finds node's father node
+	Node* father = _findFather(root, content); // finds node's father node
 	if (father) {
-		for (auto& node : father->responses) { // foreach node in responses list
+		for (Node& node : father->responses) { // foreach node in responses list
 			if (node.content == content) { // if found
 				return &node;
 			}
@@ -133,12 +133,12 @@ DiscussionTree::Node* DiscussionTree::_find(const string& content) const {
 // finds a node's father
 DiscussionTree::Node* DiscussionTree::_findFather(Node* father, const string& content) const {
 	if (father) {
-		for (auto& node : father->responses) { // foreach node in father's responses list
+		for (Node& node : father->responses) { // foreach node in father's responses list
 			if (node.content == content) { // if found
 				return father;
 			}
 			else {
-				auto result = _findFather(&node, content); // recursive call
+				Node* result = _findFather(&node, content); // recursive call
 
 				if (result) {
 					return result; // returns the found father
@@ -147,7 +147,7 @@ DiscussionTree::Node* DiscussionTree::_findFather(Node* father, const string& co
 		}
 	}
 
-	return nullptr;
+	return NULL;
 }
 
 // finds a node's path
@@ -158,8 +158,8 @@ list<DiscussionTree::Node*> DiscussionTree::_findPath(Node* father, const string
 			lst.push_back(father); // pushes the node to the list
 		}
 		else {
-			for (auto& child : father->responses) { // foreach node in father's responses list
-				auto childLst = _findPath(&child, content); // recursive call
+			for (Node& child : father->responses) { // foreach node in father's responses list
+				list<Node*> childLst = _findPath(&child, content); // recursive call
 				if (!childLst.empty()) { // if the child node was found
 					lst.push_back(father); // pushes the father to the list 
 					lst.splice(lst.end(), childLst); // merges the 2 lists to lst
@@ -179,7 +179,7 @@ void DiscussionTree::_printNode(const Node& node, ostream& os, size_t indentatio
 
 	os << node.content << endl; // prints the node's content
 
-	for (const auto& child : node.responses) { // foreach node in node's responses list
+	for (const Node& child : node.responses) { // foreach node in node's responses list
 		_printNode(child, os, indentations + 1); //recursive print the subtree
 	}
 }

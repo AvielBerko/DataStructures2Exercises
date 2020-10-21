@@ -13,9 +13,9 @@ public:
 		Node(const string& content) : content(content) {}				// ctor
 	};
 	
-	DiscussionTree() = default;											// default ctor (2.1)
+	DiscussionTree() : root (NULL) {}									// default ctor (2.1)
 	DiscussionTree(const DiscussionTree& copy);							// copy ctor
-	DiscussionTree(DiscussionTree&& move);								// move ctor
+	//DiscussionTree(DiscussionTree&& move);							// move ctor
 	~DiscussionTree();													// dtor (2.2)
 
 	void setRoot(const string& content);								// root setter (2.3)
