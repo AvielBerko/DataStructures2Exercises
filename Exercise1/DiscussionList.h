@@ -7,8 +7,8 @@ using namespace std;
 
 class DiscussionList {
 public:
-	DiscussionList() = default;																	// defualt ctor (3.1)
-	~DiscussionList() = default;																// dtor (3.2)
+	//DiscussionList() = default;																// defualt ctor (3.1)
+	//~DiscussionList() = default;																// dtor (3.2)
 
 
 	void addDiscussion(const string& content);													// adds a new discussion tree (3.3)

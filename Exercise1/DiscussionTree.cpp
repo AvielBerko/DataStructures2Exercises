@@ -122,9 +122,9 @@ DiscussionTree::Node* DiscussionTree::_find(const string& content) const {
 
 	Node* father = _findFather(root, content); // finds node's father node
 	if (father) {
-		for (Node& node : father->responses) { // foreach node in responses list
-			if (node.content == content) { // if found
-				return &node;
+		for (list<Node>::iterator it = father->responses.begin(); it != father->responses.end(); ++it) { // foreach node in responses list
+			if (it->content == content) { // if found
+				return &*it;
 			}
 		}
 	}
@@ -133,12 +133,12 @@ DiscussionTree::Node* DiscussionTree::_find(const string& content) const {
 // finds a node's father
 DiscussionTree::Node* DiscussionTree::_findFather(Node* father, const string& content) const {
 	if (father) {
-		for (Node& node : father->responses) { // foreach node in father's responses list
-			if (node.content == content) { // if found
+		for (list<Node>::iterator it = father->responses.begin(); it != father->responses.end(); ++it) { // foreach node in responses list
+			if (it->content == content) { // if found
 				return father;
 			}
 			else {
-				Node* result = _findFather(&node, content); // recursive call
+				Node* result = _findFather(&*it, content); // recursive call
 
 				if (result) {
 					return result; // returns the found father
@@ -158,8 +158,8 @@ list<DiscussionTree::Node*> DiscussionTree::_findPath(Node* father, const string
 			lst.push_back(father); // pushes the node to the list
 		}
 		else {
-			for (Node& child : father->responses) { // foreach node in father's responses list
-				list<Node*> childLst = _findPath(&child, content); // recursive call
+			for (list<Node>::iterator it = father->responses.begin(); it != father->responses.end(); ++it) { // foreach node in responses list
+				list<Node*> childLst = _findPath(&*it, content); // recursive call
 				if (!childLst.empty()) { // if the child node was found
 					lst.push_back(father); // pushes the father to the list 
 					lst.splice(lst.end(), childLst); // merges the 2 lists to lst
@@ -179,7 +179,7 @@ void DiscussionTree::_printNode(const Node& node, ostream& os, size_t indentatio
 
 	os << node.content << endl; // prints the node's content
 
-	for (const Node& child : node.responses) { // foreach node in node's responses list
-		_printNode(child, os, indentations + 1); //recursive print the subtree
+	for (list<Node>::const_iterator it = node.responses.begin(); it != node.responses.end(); ++it) { // foreach node in responses list
+		_printNode(*it, os, indentations + 1); //recursive print the subtree
 	}
 }
