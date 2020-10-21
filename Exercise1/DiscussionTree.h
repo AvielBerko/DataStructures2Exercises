@@ -13,21 +13,22 @@ public:
 		Node(const string& content) : content(content) {}
 	};
 
-	DiscussionTree();
+	DiscussionTree() = default;
 	~DiscussionTree();
 
 	void setRoot(const string& content);
 	Node* find(const string& content) const;
 	void insert(const string& father, const string& content);
-	void deleteSubTree(const string& content);
-	void printToSubTree(const string& content) const;
-	void printFromSubTree(const string& content) const;
+	void deleteResponse(const string& content);
+	void printToResponse(const string& content) const;
+	void printFromResponse(const string& content) const;
 
 	friend ostream& operator<<(ostream& os, const DiscussionTree& dt);
 
 private:
 	Node* _findFather(Node* father, const string& content) const;
-	list<const Node&> _findPath(const string& content);
+	list<Node*> _findPath(Node* father, const string& content) const;
+	void _printNode(const Node& node, ostream& os = cout, size_t indentations = 0) const;
 	Node* root;
 };
 
