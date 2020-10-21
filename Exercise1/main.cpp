@@ -1,3 +1,7 @@
+// Names: Aviel Berkovich (211981105), Meir Klemfner(21...)
+// Data Structures 2
+// Exercise 1
+
 #include <iostream>
 #include <list>
 #include <string>
