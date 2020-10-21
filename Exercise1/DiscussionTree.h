@@ -5,6 +5,7 @@
 
 using namespace std;
 
+class DiscussionList;
 class DiscussionTree {
 public:
 	struct Node {
@@ -27,7 +28,7 @@ public:
 	void printToFromResponse(const string& content) const;				// prints from root to response and forward
 
 	friend ostream& operator<<(ostream& os, const DiscussionTree& dt);	// operator << - to print a complete tree (2.7)
-
+	friend class DiscussionList;
 private:
 	Node* _find(const string& content) const;							// finds a node with given content (2.4)
 	Node* _findFather(Node* father, const string& content) const;		// finds a node's father

@@ -16,7 +16,7 @@ int main() {
 	char ch;
 
 	cout << "\nDISCUSSION TREE\n";
-	cout << "Choose one of the following (Upper case letters allowed):" << endl;
+	cout << "Choose one of the following:" << endl;
 	cout << "n: New discussion tree" << endl;
 	cout << "s: Add a new response" << endl;
 	cout << "d: Delete a sub-discussion" << endl;
