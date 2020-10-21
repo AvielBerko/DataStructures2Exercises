@@ -1,25 +1,30 @@
+// dt is used for "discussion tree"
+
 #include "DiscussionList.h"
 
+// adds a new discussion tree (3.3)
 void DiscussionList::addDiscussion(const string& content) {
-	DiscussionTree dt;
-	dt.setRoot(content);
-	discussions.push_back(dt);
+	DiscussionTree dt; // bulids an empty dt
+	dt.setRoot(content); // sets the dt's root
+	discussions.push_back(move(dt)); // moves dt to discussions list
 }
 
+// deletes a discussion tree (3.4)
 void DiscussionList::deleteDiscussion(DiscussionTree::Node* root) {
 	for (auto it = discussions.begin(); it != discussions.end(); ++it) {
-		if (it->getRoot() == root) {
-			discussions.erase(it);
+		if (it->getRoot() == root) { // if the root was found
+			discussions.erase(it); // erase the root
 			break;
 		}
 	}
 }
 
+// prints all Responses and pathes of a node (3.5)
 bool DiscussionList::printResponsesAndPathes(const string& content) const {
 	bool found = false;
-	for (const auto& dt : discussions) {
-		if (dt.printFromResponse(content)) {
-			dt.printPathToResponse(content);
+	for (const auto& dt : discussions) { // foreach dt in discussions list
+		if (dt.printResponseTree(content)) { // if the subtree was printed
+			dt.printPathToResponse(content); // print the paths
 			found = true;
 		}
 	}
@@ -27,58 +32,64 @@ bool DiscussionList::printResponsesAndPathes(const string& content) const {
 	return found;
 }
 
-void DiscussionList::printFromResponse(const string& discussion, const string& content) const {
-	for (const auto& dt : discussions) {
-		if (dt.getRoot()->content == discussion) {
-			dt.printFromResponse(content);
+// prints the response subtree (3.?)
+void DiscussionList::printResponseTree(const string& discussion, const string& content) const {
+	for (const auto& dt : discussions) { // foreach dt in discussions list
+		if (dt.getRoot()->content == discussion) { // if the dt was found
+			dt.printResponseTree(content); // print the subtree of content
 			break;
 		}
 	}
 }
 
+// adds a response to an existing discussion (3.6)
 bool DiscussionList::addResponse(const string& discussion, const string& response, const string& content) {
-	for (auto& dt : discussions) {
-		if (dt.getRoot()->content == discussion) {
-			return dt.addResponse(response, content);
+	for (auto& dt : discussions) { // foreach dt in discussions list
+		if (dt.getRoot()->content == discussion) { // if the dt was found
+			return dt.addResponse(response, content); // adds the response
 		}
 	}
 
 	return false;
 }
 
+// deletes a response from an existing discussion (3.7)
 bool DiscussionList::deleteResponse(const string& discussion, const string& content) {
-	for (auto& dt : discussions) {
-		if (dt.getRoot()->content == discussion) {
-			return dt.deleteResponse(content);
+	for (auto& dt : discussions) { // foreach dt in discussions list
+		if (dt.getRoot()->content == discussion) { // if the dt was found
+			return dt.deleteResponse(content); // deletes the response
 		}
 	}
 
 	return false;
 }
 
+// prints a hole discussion tree (3.8)
 void DiscussionList::printDiscussion(const string& discussion) const {
-	for (auto& dt : discussions) {
-		if (dt.getRoot()->content == discussion) {
-			cout << dt;
+	for (auto& dt : discussions) { // foreach dt in discussions list
+		if (dt.getRoot()->content == discussion) { // if the dt was found
+			cout << dt; // prints the dt
 			break;
 		}
 	}
 }
 
+// prints the path and subtree of a given response (3.9)
 void DiscussionList::printResponse(const string& discussion, const string& content) const {
-	for (const auto& dt : discussions) {
-		if (dt.getRoot()->content == discussion) {
-			dt.printToFromResponse(content);
+	for (const auto& dt : discussions) { // foreach dt in discussions list
+		if (dt.getRoot()->content == discussion) { // if the dt was found
+			dt.printToFromResponse(content); // print the path and subtree of the response
 			break;
 		}
 	}
 }
 
+// operator << to print all discussion trees list
 ostream& operator<<(ostream& os, const DiscussionList& dl) {
 	size_t counter = 1;
-	for (const auto& dt : dl.discussions) {
-		os << "Tree #" << counter++ << '\n';
-		os << dt;
+	for (const auto& dt : dl.discussions) {  // foreach dt in discussions list
+		os << "Tree #" << counter++ << '\n'; 
+		os << dt; // prints the dt
 	}
 
 	return os;

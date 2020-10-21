@@ -1,6 +1,7 @@
 // Names: Aviel Berkovich (211981105), Meir Klemfner(211954185)
 // Data Structures 2
 // Exercise 1
+// The main program has no comments beacuse it was copied from the moodle
 
 #include <iostream>
 #include <list>
@@ -8,21 +9,6 @@
 #include "DiscussionList.h"
 
 using namespace std;
-
-//int main() {
-//	DiscussionTree dt;
-//	dt.setRoot("test");
-//	dt.addResponse("test", "test 2");
-//	dt.addResponse("test 2", "test 3");
-//	dt.addResponse("test 2", "test 5");
-//	dt.addResponse("test 3", "test 4");
-//	dt.addResponse("test", "test 0");
-//	dt.addResponse("test 0", "test -1");
-//	//dt.printToResponse("test 4");
-//	//dt.printFromResponse("test 1");
-//	dt.printResponse("test 2");
-//	//cout << dt;
-//}
 
 int main() {
 	DiscussionList dl;
@@ -79,7 +65,7 @@ int main() {
 			cin >> title;
 			cout << "enter the last message (with no space) ";
 			cin >> val;
-			dl.printFromResponse(title, val);
+			dl.printResponseTree(title, val);
 			cout << endl;
 			break;
 		case 'w':
