@@ -39,8 +39,7 @@ void DiscussionList::printResponseTree(const string& discussion, const string& c
 	for (list<DiscussionTree>::const_iterator it = discussions.cbegin(); it != discussions.cend(); ++it) { // foreach dt in discussions list
 		if (it->getRoot()->content == discussion) { // if the dt was found
 			it->printResponseTree(content); // print the subtree of content
-			if (it->_findFather(it->root, content))
-				cout << "=>" << it->_findFather(it->root, content)->content << endl;
+			it->printPathToResponse(content);
 			break;
 		}
 	}
@@ -61,6 +60,10 @@ bool DiscussionList::addResponse(const string& discussion, const string& respons
 bool DiscussionList::deleteResponse(const string& discussion, const string& content) {
 	for (list<DiscussionTree>::iterator it = discussions.begin(); it != discussions.end(); ++it) { // foreach dt in discussions list
 		if (it->getRoot()->content == discussion) { // if the dt was found
+			if (it->getRoot()->content == content) {
+				discussions.erase(it);
+				return true;
+			}
 			return it->deleteResponse(content); // deletes the response
 		}
 	}
