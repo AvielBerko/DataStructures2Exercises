@@ -66,8 +66,11 @@ bool DiscussionTree::deleteResponse(const string& content) {
 
 // prints the path from root to response (2.8)
 void DiscussionTree::printPathToResponse(const string& content) const {
+	if (root->content == content)
+		return;
 	list<Node*> path = _findPath(root, content); // finds the path to content's node
 	if (!path.empty()) {
+		cout << content;
 		for (list<Node*>::reverse_iterator it = ++path.rbegin(); it != path.rend(); ++it) {
 			cout << "=>" << (*it)->content; // prints the path (using iterators)
 		}
