@@ -29,8 +29,8 @@ public:
 	friend ostream& operator<<(ostream& os, const DiscussionTree& dt);	// operator << - to print a complete tree (2.7)
 
 private:
-	Node* _find(const string& content) const;							// finds a node with given content (2.4)
-	Node* _findFather(Node* father, const string& content) const;		// finds a node's father
+	Node* _find(Node* node, const string& content) const;				// finds a node with given content (2.4)
+	bool _delete(Node* node, const string& content) const;				// finds a node with given content (2.4)
 	list<Node*> _findPath(Node* father, const string& content) const;	// finds a node's path
 	void _printNode(const Node& node, ostream& os = cout, size_t indentations = 0) const; // prints a node and it's responses
 	Node* root;
