@@ -127,7 +127,8 @@ bool DiscussionTree::_delete(Node* node, const string& content) const {
 				node->responses.erase(it);
 				return true;
 			}
-			return _delete(&*it, content); // recursive call
+			if (_delete(&*it, content)) // recursive call
+				return true;
 
 		}
 	}
