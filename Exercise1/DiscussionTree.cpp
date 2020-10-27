@@ -32,7 +32,7 @@ DiscussionTree::Node* DiscussionTree::getRoot() const {
 
 // adds a response to an existing response (2.5)
 bool DiscussionTree::addResponse(const string& father, const string& content) {
-	Node* fatherNode = _find(father); // finds the father's node
+	Node* fatherNode = _find(root,father); // finds the father's node
 	if (fatherNode) {
 		fatherNode->responses.push_back(Node(content)); // pushes the content to father's list of responses
 		return true;
@@ -43,25 +43,11 @@ bool DiscussionTree::addResponse(const string& father, const string& content) {
 
 // deletes an existing response (2.6)
 bool DiscussionTree::deleteResponse(const string& content) {
-	if (root->content == content) { // found
+	if (root->content == content) { // found on root
 		delete root; // deletes root's pointer
 		return true;
 	}
-
-	Node* father = _findFather(root, content); // finds node's father node
-	if (father) {
-		list<Node>::iterator it = father->responses.begin();
-		list<Node>::iterator end = father->responses.end();
-		for (; it != end; ++it) {
-			if (it->content == content) { 
-				// finds the node and deletes it
-				father->responses.erase(it);
-				return true;
-			}
-		}
-	}
-
-	return false;
+	return _delete(root, content);
 }
 
 // prints the path from root to response (2.8)
@@ -81,7 +67,7 @@ void DiscussionTree::printPathToResponse(const string& content) const {
 
 // prints the response's subtree (2.9)
 bool DiscussionTree::printResponseTree(const string& content) const {
-	Node* node = _find(content); // finds content's node
+	Node* node = _find(root, content); // finds content's node
 	if (node) {
 		_printNode(*node); // prints the node and it's subtree
 	}
@@ -118,39 +104,34 @@ ostream& operator<<(ostream& os, const DiscussionTree& dt) {
 	return os;
 }
 
-
 // finds a node with given content (2.4)
-DiscussionTree::Node* DiscussionTree::_find(const string& content) const {
-	if (root->content == content) return root; // checks the root node
-
-	Node* father = _findFather(root, content); // finds node's father node
-	if (father) {
-		for (list<Node>::iterator it = father->responses.begin(); it != father->responses.end(); ++it) { // foreach node in responses list
-			if (it->content == content) { // if found
-				return &*it;
+DiscussionTree::Node* DiscussionTree::_find(Node* node, const string& content) const {
+	if (node) {
+		if (node->content == content) { // if found
+			return node;
+		}
+		for (list<Node>::iterator it = node->responses.begin(); it != node->responses.end(); ++it) { // foreach node in responses list
+			Node* result = _find(&*it, content); // recursive call
+			if (result) {
+				return result; // returns the found father
 			}
 		}
 	}
+	return NULL;
 }
 
-// finds a node's father
-DiscussionTree::Node* DiscussionTree::_findFather(Node* father, const string& content) const {
-	if (father) {
-		for (list<Node>::iterator it = father->responses.begin(); it != father->responses.end(); ++it) { // foreach node in responses list
+bool DiscussionTree::_delete(Node* node, const string& content) const {
+	if (node) {
+		for (list<Node>::iterator it = node->responses.begin(); it != node->responses.end(); ++it) { // foreach node in responses list
 			if (it->content == content) { // if found
-				return father;
+				node->responses.erase(it);
+				return true;
 			}
-			else {
-				Node* result = _findFather(&*it, content); // recursive call
+			return _delete(&*it, content); // recursive call
 
-				if (result) {
-					return result; // returns the found father
-				}
-			}
 		}
 	}
-
-	return NULL;
+	return false;
 }
 
 // finds a node's path

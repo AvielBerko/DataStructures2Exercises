@@ -15,7 +15,7 @@ int main() {
 	string title, father, val, son;
 	char ch;
 
-	cout << "\nDISCUSSION TREE\n";
+	cout << "DISCUSSION TREE\n";
 	cout << "Choose one of the following:" << endl;
 	cout << "n: New discussion tree" << endl;
 	cout << "s: Add a new response" << endl;
