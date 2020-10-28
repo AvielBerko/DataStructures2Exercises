@@ -36,7 +36,7 @@ bool DiscussionList::printResponsesAndPathes(const string& content) const {
 
 // prints the response subtree (3.?)
 void DiscussionList::printResponseTree(const string& discussion, const string& content) const {
-	for (list<DiscussionTree>::const_iterator it = discussions.cbegin(); it != discussions.cend(); ++it) { // foreach dt in discussions list
+	for (list<DiscussionTree>::const_iterator it = discussions.begin(); it != discussions.end(); ++it) { // foreach dt in discussions list
 		if (it->getRoot()->content == discussion) { // if the dt was found
 			it->printResponseTree(content); // print the subtree of content
 			it->printPathToResponse(content);
@@ -73,7 +73,7 @@ bool DiscussionList::deleteResponse(const string& discussion, const string& cont
 
 // prints a hole discussion tree (3.8)
 void DiscussionList::printDiscussion(const string& discussion) const {
-	for (list<DiscussionTree>::const_iterator it = discussions.cbegin(); it != discussions.cend(); ++it) { // foreach dt in discussions list
+	for (list<DiscussionTree>::const_iterator it = discussions.begin(); it != discussions.end(); ++it) { // foreach dt in discussions list
 		if (it->getRoot()->content == discussion) { // if the dt was found
 			cout << *it; // prints the dt
 			break;
@@ -83,7 +83,7 @@ void DiscussionList::printDiscussion(const string& discussion) const {
 
 // prints the path and subtree of a given response (3.9)
 void DiscussionList::printResponse(const string& discussion, const string& content) const {
-	for (list<DiscussionTree>::const_iterator it = discussions.cbegin(); it != discussions.cend(); ++it) { // foreach dt in discussions list
+	for (list<DiscussionTree>::const_iterator it = discussions.begin(); it != discussions.end(); ++it) { // foreach dt in discussions list
 		if (it->getRoot()->content == discussion) { // if the dt was found
 			it->printToFromResponse(content); // print the path and subtree of the response
 			break;
