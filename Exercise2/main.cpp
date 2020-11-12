@@ -2,7 +2,9 @@
 // Data Structures 2
 // Exercise 2
 // The main program has no comments beacuse it was copied from the moodle
+
 #include <iostream>
+#include "HSubject.h"
 using namespace std;
 
 int main()
@@ -27,7 +29,7 @@ int main()
 		switch (ch)
 		{
 
-		case 'n':hs.startNewTable(); break;
+		case 'n':hs.initTable(); break;
 		case 'a':cout << "Enter a subject and a title\n";
 			cin >> subject >> title;
 			hs.addSubjectAndTitle(subject, title);
@@ -37,9 +39,9 @@ int main()
 			hs.remove(subject); break;
 		case 't':cout << "enter subject to print\n";
 			cin >> subject;
-			hs.printS(subject); break;
+			hs.printSubject(subject); break;
 		case 's':cout << "enter a subject and N\n"; cin >> subject >> n;
-			hs.printN(subject, n); break;
+			hs.printFirstN(subject, n); break;
 		case 'e':cout << "bye\n"; break;
 		case 'p':hs.print(); break;
 		default: cout << "ERROR\n";  break;
