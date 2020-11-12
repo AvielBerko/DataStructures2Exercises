@@ -1,15 +1,21 @@
 #include "HSubject.h"
 
 void HSubject::initTable() {
-	std::for_each(table.begin(), table.end(), [](Item& item) { setItemValidation(item, false); });
+	//std::for_each(table.begin(), table.end(), [](Item& item) ); });
+	for (std::vector<Item>::iterator it = table.begin(); it != table.end(); it++)
+		setItemValidation(*it, false);
 }
 
 void HSubject::printSubject(const std::string& subject) const {
 	int index = find(subject);
 	if (index >= 0) {
 		const Item& item = table[index];
-		std::for_each(item.data.begin(), item.data.end(), [](const std::string& title) { std::cout << title << " "; });
+		//std::for_each(item.data.begin(), item.data.end(), [](const std::string& title) { std::cout << title << " "; });
+		for (std::list<std::string>::const_iterator it = item.data.begin(); it != item.data.end(); it++)
+			std::cout << *it << " ";
 	}
+	else
+		std::cout << "ERROR" << std::endl;
 }
 
 void HSubject::addSubjectAndTitle(const std::string& subject, const std::string& title) {
@@ -30,15 +36,19 @@ void HSubject::printFirstN(const std::string& subject, size_t N) const {
 		N = std::min(N, item.data.size());
 		std::list<std::string>::const_iterator it = item.data.begin();
 		for (size_t i = 0; i < N; i++) {
-			std::cout << *(it++);
+			std::cout << *(it++) << ' ';
 		}
 	}
+	else
+		std::cout << "ERROR" << std::endl;
 }
 
 void HSubject::print(std::ostream& os) const {
 	for (std::vector<Item>::const_iterator it = table.begin(); it != table.end(); it++) {
 		os << it->key << ':';
-		std::for_each(it->data.begin(), it->data.end(), [&](const std::string& title) { os << title << " "; });
+		//std::for_each(it->data.begin(), it->data.end(), [&](const std::string& title) { os << title << " "; });
+		for (std::list<std::string>::const_iterator it2 = it->data.begin(); it2 != it->data.end(); it++)
+			os << *it2 << " ";
 		os << std::endl;
 	}
 }
@@ -53,6 +63,7 @@ size_t HSubject::h2(const std::string& subject) const {
 
 std::ostream& operator<<(std::ostream& os, const HSubject& hs) {
 	hs.print(os);
+	return os; 
 }
 
 size_t HSubject::stringToNum(const std::string& str) {

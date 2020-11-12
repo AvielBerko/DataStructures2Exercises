@@ -1,7 +1,7 @@
 #pragma once
 #include<iostream>
 #include<vector>
-#include<algorithm>
+//#include<algorithm>
 
 inline static size_t getNextPrime(size_t num);
 static bool isPrime(size_t num);
