@@ -46,7 +46,6 @@ void HSubject::printFirstN(const std::string& subject, size_t N) const {
 void HSubject::print(std::ostream& os) const {
 	for (std::vector<Item>::const_iterator it = table.begin(); it != table.end(); it++) {
 		os << it->key << ':';
-		//std::for_each(it->data.begin(), it->data.end(), [&](const std::string& title) { os << title << " "; });
 		for (std::list<std::string>::const_iterator it2 = it->data.begin(); it2 != it->data.end(); it++)
 			os << *it2 << " ";
 		os << std::endl;
@@ -58,7 +57,7 @@ size_t HSubject::h1(const std::string& subject) const {
 }
 
 size_t HSubject::h2(const std::string& subject) const {
-	return (1 + stringToNum(subject) % 7);
+	return (1 + stringToNum(subject) % (table.size() * 2 / 3));
 }
 
 std::ostream& operator<<(std::ostream& os, const HSubject& hs) {

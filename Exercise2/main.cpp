@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include "HSubject.h"
+#pragma warning(disable: 4996)
 using namespace std;
 
 int main()
@@ -50,65 +51,3 @@ int main()
 	return 0;
 }
 
-/*
-Hash Table
-
-Choose one of the following
-n: New hash table
-a: Add a subject and a title
-d: Del a subject
-t: print all titles of the subject
-s: print N first appearances of a subect
-p: print all non-empty entries
-e: Exit
-n
-a
-Enter a subject and a title
-subject1 title1
-a
-Enter a subject and a title
-subject1 title2
-a
-Enter a subject and a title
-subject1 title3
-a
-Enter a subject and a title
-subject2 title2
-a
-Enter a subject and a title
-subject1 title4
-t
-enter subject to print
-subject1
-title4 title3 title2 title1
-t
-enter subject to print
-subject2
-title2
-s
-enter a subject and N
-subject1 3
-title4 title3 title2
-s
-enter a subject and N
-subject2 3
-title2
-p
-subject1:title4 title3 title2 title1
-subject2:title2
-d
-Enter a subject to remove
-subject1
-p
-subject2:title2
-d
-Enter a subject to remove
-subject3
-t
-enter subject to print
-subject3
-ERROR
-e
-bye
-
-*/
