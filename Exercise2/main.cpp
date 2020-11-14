@@ -44,7 +44,7 @@ int main()
 		case 's':cout << "enter a subject and N\n"; cin >> subject >> n;
 			hs.printFirstN(subject, n); break;
 		case 'e':cout << "bye\n"; break;
-		case 'p':hs.print(); break;
+		case 'p':cout << hs; break;
 		default: cout << "ERROR\n";  break;
 		}
 	} while (ch != 'e');

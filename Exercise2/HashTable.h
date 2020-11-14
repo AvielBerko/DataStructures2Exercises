@@ -28,7 +28,7 @@ public:
 		bool isValid;
 	};
 
-	HashTable(size_t size); // ctor
+	HashTable(size_t size); // Ctor
 	// Virtual dtor for abstract class.
 	virtual ~HashTable() {}
 	// Finds the index of the item with the given key. If not found returns -1.
@@ -76,7 +76,8 @@ inline int HashTable<K, T>::find(const K& key) const {
 		const Item& item = table[result];
 
 		if (!item.isValid)
-			return -1;
+			return -1; // Means that the key is not in the table.
+
 		if (item.key == key)
 			return result;
 	}
@@ -90,6 +91,7 @@ inline void HashTable<K, T>::insert(const Item& item) {
 		const Item& currentItem = table[result];
 
 		if (!currentItem.isValid) {
+			// Found the next empty cell.
 			table[result] = item;
 			return;
 		}
@@ -102,6 +104,7 @@ inline void HashTable<K, T>::insert(const Item& item) {
 template<class K, class T>
 inline void HashTable<K, T>::remove(const K& key) {
 	int index = find(key);
+	// Checks whether the item was found.
 	if (index >= 0)
 		table[index].isValid = false;
 }
@@ -109,6 +112,8 @@ inline void HashTable<K, T>::remove(const K& key) {
 template<class K, class T>
 inline bool HashTable<K, T>::update(const Item& item) {
 	int index = find(item.key);
+
+	// Checks whether the item was found.
 	if (index >= 0) {
 		table[index] = item;
 		return true;
