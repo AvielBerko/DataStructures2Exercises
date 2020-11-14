@@ -2,7 +2,7 @@
 #include "HashTable.h"
 #include<list>
 
-class HSubject : public HashTable<std::string, std::list<std::string>> {
+class HSubject : public HashTable<std::string, std::list<std::string> > {
 public:
 	// Ctor with a given size.
 	HSubject(size_t size) : HashTable(size) { }
