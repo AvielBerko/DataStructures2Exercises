@@ -7,8 +7,7 @@
 #include "HSubject.h"
 using namespace std;
 
-int main()
-{
+int main() {
 	char ch;
 	int n;
 	HSubject hs(1000);
