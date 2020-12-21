@@ -17,7 +17,7 @@ void Trie::insert(const std::string& str) {
 	std::string::const_iterator it = str.begin();
 	for (; it != str.end(); ++it) {
 		if (!current->children[TRIE_INDEX(*it)]) {
-			current->children[TRIE_INDEX(*it)] = new TrieNode{ current };
+			current->children[TRIE_INDEX(*it)] = new TrieNode(current);
 		}
 
 		current = current->children[TRIE_INDEX(*it)];
@@ -106,6 +106,12 @@ Trie::TrieNode* Trie::find(const std::string& str) const {
 	}
 
 	return current;
+}
+
+Trie::TrieNode::TrieNode() : parent(NULL), children(), isEndNode(false) {
+}
+
+Trie::TrieNode::TrieNode(TrieNode* parent) : parent(parent), children(), isEndNode(false) {
 }
 
 Trie::TrieNode::~TrieNode() {

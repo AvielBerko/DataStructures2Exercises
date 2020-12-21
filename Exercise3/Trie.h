@@ -17,10 +17,12 @@ public:
 private:
 
 	struct TrieNode {
-		TrieNode* parent = NULL;
-		TrieNode* children[ALPHABET_COUNT] = { NULL };
-		bool isEndNode = false;
+		TrieNode* parent;
+		TrieNode* children[ALPHABET_COUNT];
+		bool isEndNode;
 
+		TrieNode();
+		TrieNode(TrieNode* parent);
 		~TrieNode();
 	} * root;
 
