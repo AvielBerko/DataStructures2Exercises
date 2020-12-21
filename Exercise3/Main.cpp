@@ -1,3 +1,7 @@
+// Names: Aviel Berkovich (211981105), Meir Klemfner(211954185)
+// Data Structures 2
+// Exercise 3
+// The main program has no comments beacuse it was copied from the moodle
 #include<iostream>
 #include <list>
 #include <string>
