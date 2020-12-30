@@ -104,12 +104,12 @@ void HuffmanTree::encode_chars(std::map<char, std::string>& mp, std::string& cod
     // adds 0 to the encoded value for the left node
     code += '0';
     encode_chars(mp, code, current->left);
-    code.pop_back();
+    code.erase(code.size() - 1, 1);
 
     // adds 1 to the encoded value for the right node
     code += '1';
     encode_chars(mp, code, current->right);
-    code.pop_back();
+    code.erase(code.size() - 1, 1);
 }
 
 void HuffmanTree::get_chars(std::vector<char>& chars, HuffmanNode* current) const {

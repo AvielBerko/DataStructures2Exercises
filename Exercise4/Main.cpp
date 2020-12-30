@@ -4,11 +4,9 @@
 // The main program has no comments beacuse it was copied from the moodle
 
 #include <iostream>
-#include <queue>
-#include <list>
+#include <vector>
 #include <string>
 #include <map>
-#include <cmath>
 
 #include "huffman.h"
 
@@ -30,6 +28,7 @@ int main() {
 			HuffmanTree tree(text);
 			std::vector<char> vec = tree.get_chars();
 
+			std::cout << "the encoded string is: ";
 			// prints n
 			std::cout << vec.size() << '\n';
 
