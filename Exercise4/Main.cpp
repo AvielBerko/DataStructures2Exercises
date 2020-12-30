@@ -27,74 +27,67 @@ int main() {
 			std::string text;
 			std::cin >> text;
 
-			//HuffmanTree tree(text);
-			//std::cout << tree.get_n() << '\n';
-			//std::vector<char> chars = tree.get_chars();
-			//for (char ch : chars) {
-			//	std::cout << ch;
-			//}
-			//std::cout << '\n' << tree.to_string() << '\n';
-			//for (char ch : text) {
-			//	std::cout << tree.get_code(ch);
-			//}
-			//std::cout << '\n';
-
 			HuffmanTree tree(text);
-			std::map<char, std::string> mp = tree.get_chars_code();
-			std::cout << mp.size() << '\n';
+			std::vector<char> vec = tree.get_chars();
 
-			std::map<char, std::string>::iterator it = mp.begin();
-			for (; it != mp.end(); ++it) {
-				std::cout << it->first;
+			// prints n
+			std::cout << vec.size() << '\n';
+
+			// prints the letters by order
+			std::vector<char>::iterator it = vec.begin();
+			for (; it != vec.end(); ++it) {
+				std::cout << *it;
 			}
 
+			// prints the tree's structure
 			std::cout << '\n' << tree.to_string() << '\n';
 
-			for (char ch : text) {
-				std::cout << mp[ch];
+			// prints the encoded text
+			std::map<char, std::string> mp = tree.get_chars_to_code();
+			std::string::iterator it_txt = text.begin();
+			for (; it_txt != text.end(); ++it_txt) {
+				std::cout << mp[*it_txt];
 			}
 			std::cout << '\n';
-
-			//Build Huffman tree given the data inside "word".
-			//Then find the code of each letter.
-			//Then print the output - number of leaves, order of letters, tree structure and the encoded text - according to the explanation in the exercise.
 
 			break;
 		}
 		case 2: {
 			size_t n;
-			std::cout << "";
+			std::cout << "enter n ";
 			std::cin >> n;
 
 			std::string chars;
-			std::cout << "";
+			std::cout << "enter the letters ";
 			std::cin >> chars;
 
 			std::string tree_str;
-			std::cout << "";
+			std::cout << "enter the encoded structure ";
 			std::cin >> tree_str;
 
 			std::string encoded;
-			std::cout << "";
+			std::cout << "enter the encoded text ";
 			std::cin >> encoded;
 
-			//HuffmanTree tree(chars, tree_str);
-			//std::cout << tree.decode(encoded) << '\n';
+			HuffmanTree tree(tree_str, chars);
 
-			//std::map<std::string, char> vec = tree.get_vec_reverse();
-			//std::string builder;
-			//for (char ch : encoded) {
-			//	builder += ch;
-			//	if (vec[builder]) {
-			//		std::cout << vec[builder];
-			//		builder = "";
-			//	}
-			//}
-			//std::cout << '\n';
+			std::map<std::string, char> vec = tree.get_code_to_chars();
+			std::string builder;
 
-			//input the number of leaves, the  order of letters, tree structure and the encoded text.
-			//build the Huffman Tree according to the tree strcture. put the letters in the leaves according to the given order. 
-			//Given the Huffman Tree and the encoded text, find the original text, and print it. 
+			std::cout << "The decoded string is: ";
+
+			// iterates over the encoded text and tries to find 
+			// the letters by adding the binary to the builder
+			std::string::iterator it_txt = encoded.begin();
+			for (; it_txt != encoded.end(); ++it_txt) {
+				builder += *it_txt;
+				if (vec[builder]) {
+					std::cout << vec[builder];
+					builder.clear();
+				}
+			}
+			std::cout << '\n';
+
 		}
 		}
 	} while (choice != 3);
